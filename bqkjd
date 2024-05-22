@@ -1,0 +1,89 @@
+-- UI Library Script
+
+local UILibrary = {}
+
+-- Create the main window
+function UILibrary:CreateWindow(title)
+    -- Create the main frame
+    local screenGui = Instance.new("ScreenGui")
+    screenGui.Name = "UILibraryScreenGui"
+    screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+    local mainFrame = Instance.new("Frame")
+    mainFrame.Size = UDim2.new(0, 400, 0, 300)
+    mainFrame.Position = UDim2.new(0.5, -200, 0.5, -150)
+    mainFrame.BackgroundColor3 = Color3.fromRGB(42, 42, 42)
+    mainFrame.BorderSizePixel = 0
+    mainFrame.Parent = screenGui
+
+    local titleLabel = Instance.new("TextLabel")
+    titleLabel.Size = UDim2.new(1, 0, 0, 50)
+    titleLabel.Position = UDim2.new(0, 0, 0, 0)
+    titleLabel.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+    titleLabel.BorderSizePixel = 0
+    titleLabel.Text = title
+    titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    titleLabel.Font = Enum.Font.SourceSansBold
+    titleLabel.TextSize = 24
+    titleLabel.Parent = mainFrame
+
+    local uiListLayout = Instance.new("UIListLayout")
+    uiListLayout.Parent = mainFrame
+    uiListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+    uiListLayout.Padding = UDim.new(0, 10)
+
+    -- Create the close button
+    local closeButton = Instance.new("TextButton")
+    closeButton.Size = UDim2.new(0, 30, 0, 30)
+    closeButton.Position = UDim2.new(1, -35, 0, 10)
+    closeButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+    closeButton.BorderSizePixel = 0
+    closeButton.Text = "X"
+    closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    closeButton.Font = Enum.Font.SourceSansBold
+    closeButton.TextSize = 14
+    closeButton.Parent = mainFrame
+
+    closeButton.MouseButton1Click:Connect(function()
+        -- Add exit animation
+        mainFrame:TweenPosition(UDim2.new(0.5, -200, 1.5, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Bounce, 1, true, function()
+            screenGui:Destroy()
+        end)
+    end)
+
+    -- Create the minimize button
+    local minimizeButton = Instance.new("TextButton")
+    minimizeButton.Size = UDim2.new(0, 30, 0, 30)
+    minimizeButton.Position = UDim2.new(1, -70, 0, 10)
+    minimizeButton.BackgroundColor3 = Color3.fromRGB(255, 255, 0)
+    minimizeButton.BorderSizePixel = 0
+    minimizeButton.Text = "-"
+    minimizeButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+    minimizeButton.Font = Enum.Font.SourceSansBold
+    minimizeButton.TextSize = 14
+    minimizeButton.Parent = mainFrame
+
+    local originalSize = mainFrame.Size
+    local minimized = false
+
+    minimizeButton.MouseButton1Click:Connect(function()
+        if minimized then
+            mainFrame:TweenSize(originalSize, Enum.EasingDirection.Out, Enum.EasingStyle.Bounce, 0.5, true)
+            minimized = false
+        else
+            mainFrame:TweenSize(UDim2.new(0, 400, 0, 50), Enum.EasingDirection.Out, Enum.EasingStyle.Bounce, 0.5, true)
+            minimized = true
+        end
+    end)
+
+    return mainFrame
+end
+
+function UILibrary:CreateButton(parent, buttonText, callback)
+    local button = Instance.new("TextButton")
+    button.Size = UDim2.new(1, -20, 0, 50)
+    button.Position = UDim2.new(0, 10, 0, 60)
+    button.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+    button.BorderSizePixel = 0
+    button.Text = buttonText
+    button.TextColor3 = Color3.fromRGB(255, 255,
